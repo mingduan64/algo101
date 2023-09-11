@@ -4,6 +4,7 @@ import java.util.List;
 public class Codec {
     private static final char DELIMITER = '\n'; // Delimiter character
     private static final char ESCAPE_CHAR = '\\';
+
     // Encodes a list of strings to a single string.
     public String encode(List<String> strs) {
         StringBuilder encodedString = new StringBuilder();

@@ -2,7 +2,8 @@
      Medium
      Topics
      Companies
-     Design an algorithm to encode a list of strings to a string. The encoded string is then sent over the network and is decoded back to the original list of strings.
+     Design an algorithm to encode a list of strings to a string. The encoded string is then sent over the network and
+     is decoded back to the original list of strings.
 
 Machine 1 (sender) has the function:
 
@@ -27,8 +28,6 @@ Implement the encode and decode methods.
 
 You are not allowed to solve the problem using any serialize methods (such as eval).
 
-
-
 Example 1:
 
 Input: dummy_input = ["Hello","World"]
@@ -47,12 +46,10 @@ Example 2:
 Input: dummy_input = [""]
 Output: [""]
 
-
 Constraints:
 
 1 <= strs.length <= 200
 0 <= strs[i].length <= 200
 strs[i] contains any possible characters out of 256 valid ASCII characters.
-
 
 Follow up: Could you write a generalized algorithm to work on any possible set of characters?
