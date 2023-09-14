@@ -1,95 +1,44 @@
-Approach 1: Two Pointers
-We will follow the same two pointers pattern as in Two Sum II. It requires the array to be sorted, so we'll do that first. As our BCR is O(n2)\mathcal{O}(n^2)O(n
-2
-), sorting the array would not change the overall time complexity.
-
-To make sure the result contains unique triplets, we need to skip duplicate values. It is easy to do because repeating values are next to each other in a sorted array.
-
-If you are wondering how to solve this problem without sorting the array, go over the "No-Sort" approach below. There are cases when that approach is preferable, and your interviewer may probe your knowledge there.
-
-After sorting the array, we move our pivot element nums[i] and analyze elements to its right. We find all pairs whose sum is equal -nums[i] using the two pointers pattern, so that the sum of the pivot element (nums[i]) and the pair (-nums[i]) is equal to zero.
-
-As a quick refresher, the pointers are initially set to the first and the last element respectively. We compare the sum of these two elements to the target. If it is smaller, we increment the lower pointer lo. Otherwise, we decrement the higher pointer hi. Thus, the sum always moves toward the target, and we "prune" pairs that would move it further away. Again, this works only if the array is sorted. Head to the Two Sum II solution for the detailed explanation.
-
-Current
-
+Approach 1: Brute Force
 Algorithm
 
-The implementation is straightforward - we just need to modify twoSumII to produce triplets and skip repeating values.
+In this case, we will simply consider the area for every possible pair of the lines and find out the maximum area out of those.
 
-For the main function:
-
-Sort the input array nums.
-Iterate through the array:
-If the current value is greater than zero, break from the loop. Remaining values cannot sum to zero.
-If the current value is the same as the one before, skip it.
-Otherwise, call twoSumII for the current position i.
-For twoSumII function:
-
-Set the low pointer lo to i + 1, and high pointer hi to the last index.
-While low pointer is smaller than high:
-If sum of nums[i] + nums[lo] + nums[hi] is less than zero, increment lo.
-If sum is greater than zero, decrement hi.
-Otherwise, we found a triplet:
-Add it to the result res.
-Decrement hi and increment lo.
-Increment lo while the next value is the same as before to avoid duplicates in the result.
-Return the result res.
+Note: Brute force approaches are often included because they are intuitive starting points when solving a problem. However, they are often expected to receive Time Limit Exceeded since they would not be accepted in an interview setting.
 
 
 Complexity Analysis
 
-Time Complexity: O(n2)\mathcal{O}(n^2)O(n
+Time complexity: O(n2)O(n^2)O(n
 2
-). twoSumII is O(n)\mathcal{O}(n)O(n), and we call it nnn times.
-
-Sorting the array takes O(nlog⁡n)\mathcal{O}(n\log{n})O(nlogn), so overall complexity is O(nlog⁡n+n2)\mathcal{O}(n\log{n} + n^2)O(nlogn+n
+). Calculating area for all n(n−1)2\dfrac{n(n-1)}{2}
 2
-). This is asymptotically equivalent to O(n2)\mathcal{O}(n^2)O(n
-2
-).
+n(n−1)
+​
+height pairs.
+Space complexity: O(1)O(1)O(1). Constant extra space is used.
 
-Space Complexity: from O(log⁡n)\mathcal{O}(\log{n})O(logn) to O(n)\mathcal{O}(n)O(n), depending on the implementation of the sorting algorithm. For the purpose of complexity analysis, we ignore the memory required for the output.
-
-Approach 2: Hashset
-Since triplets must sum up to the target value, we can try the hash table approach from the Two Sum solution. This approach won't work, however, if the sum is not necessarily equal to the target, like in 3Sum Smaller and 3Sum Closest.
-
-We move our pivot element nums[i] and analyze elements to its right. We find all pairs whose sum is equal -nums[i] using the Two Sum: One-pass Hash Table approach, so that the sum of the pivot element (nums[i]) and the pair (-nums[i]) is equal to zero.
-
-To do that, we process each element nums[j] to the right of the pivot, and check whether a complement -nums[i] - nums[j] is already in the hashset. If it is, we found a triplet. Then, we add nums[j] to the hashset, so it can be used as a complement from that point on.
-
-Like in the approach above, we will also sort the array so we can skip repeated values. We provide a different way to avoid duplicates in the "No-Sort" approach below.
-
+---
+Approach 2: Two Pointer Approach
 Algorithm
 
-The main function is the same as in the Two Pointers approach above. Here, we use twoSum (instead of twoSumII), modified to produce triplets and skip repeating values.
+The intuition behind this approach is that the area formed between the lines will always be limited by the height of the shorter line. Further, the farther the lines, the more will be the area obtained.
 
-For the main function:
+We take two pointers, one at the beginning and one at the end of the array constituting the length of the lines. Futher, we maintain a variable maxarea\text{maxarea}maxarea to store the maximum area obtained till now. At every step, we find out the area formed between them, update maxarea\text{maxarea}maxarea and move the pointer pointing to the shorter line towards the other end by one step.
 
-Sort the input array nums.
-Iterate through the array:
-If the current value is greater than zero, break from the loop. Remaining values cannot sum to zero.
-If the current value is the same as the one before, skip it.
-Otherwise, call twoSum for the current position i.
-For twoSum function:
+The algorithm can be better understood by looking at the example below:
 
-For each index j > i in A:
-Compute complement value as -nums[i] - nums[j].
-If complement exists in hashset seen:
-We found a triplet - add it to the result res.
-Increment j while the next value is the same as before to avoid duplicates in the result.
-Add nums[j] to hashset seen
-Return the result res.
+1 8 6 2 5 4 8 3 7
+Current
+
+How does this approach work?
+
+Initially we consider the area constituting the exterior most lines. Now, to maximize the area, we need to consider the area between the lines of larger lengths. If we try to move the pointer at the longer line inwards, we won't gain any increase in area, since it is limited by the shorter line. But moving the shorter line's pointer could turn out to be beneficial, as per the same argument, despite the reduction in the width. This is done since a relatively longer line obtained by moving the shorter line's pointer might overcome the reduction in area caused by the width reduction.
+
+For further clarification click here and for the proof click here.
 
 
-Time Complexity: O(n2)\mathcal{O}(n^2)O(n
-2
-). twoSum is O(n)\mathcal{O}(n)O(n), and we call it nnn times.
+Complexity Analysis
 
-Sorting the array takes O(nlog⁡n)\mathcal{O}(n\log{n})O(nlogn), so overall complexity is O(nlog⁡n+n2)\mathcal{O}(n\log{n} + n^2)O(nlogn+n
-2
-). This is asymptotically equivalent to O(n2)\mathcal{O}(n^2)O(n
-2
-).
+Time complexity: O(n)O(n)O(n). Single pass.
 
-Space Complexity: O(n)\mathcal{O}(n)O(n) for the hashset.
+Space complexity: O(1)O(1)O(1). Constant space is used.
